@@ -22,38 +22,40 @@
 const intro = magpieViews.view_generator("intro", {
   trials: 1,
   name: 'intro',
+  title: 'Herzlich Willkommen zum Experiment!',
+  text: 'Vielen Dank, dass Sie an unserem Experiment teilnehmen. Im Folgenden werden wir Ihnen kurz erklären, wie das Experiment abläuft. Bitte klicken Sie dazu auf den "Start" Knopf.',
   // If you use JavaScripts Template String `I am a Template String`, you can use HTML <></> and javascript ${} inside
-  text: `This is a sample introduction view.
-            <br />
-            <br />
-            The introduction view welcomes the participant and gives general information
-            about the experiment. You are in the <strong>${coin}</strong> group.
-            <br />
-            <br />
-            This is a minimal experiment with one forced choice view. It can serve as a starting point for programming your own experiment.`,
-  buttonText: 'begin the experiment'
+  buttonText: 'Start'
 });
 
 // For most tasks, you need instructions views
 const instructions = magpieViews.view_generator("instructions", {
   trials: 1,
   name: 'instructions',
-  title: 'General Instructions',
-  text: `This is a sample instructions view.
-            <br />
-            <br />
-            Tell your participants what they are to do here.`,
-  buttonText: 'go to trials'
+  title: 'Anleitung',
+  text: `In diesem Experiment sollen Sie eines von vier Bildern, die auf dem Bildschirm erscheinen, auswählen. Die Bilder, die Sie sehen werden, stellen Bilder aus einem Bilderbuch dar. Bitte stellen Sie sich vor, dass ein Kind dieses Bilderbuch zusammen mit einem Elternteil anschaut. Die Bilder zeigen Tiere und verschiedene Gegenstände. Sie sollen nun anhand von kurzen Gesprächen zwischen dem Kind und dem Elternteil entscheiden über, welches Bild die beiden sprechen. In jedem Durchgang werden Sie zunächst eine Frage, die das Kind gestellt hat, und eine Antwort des Elternteils lesen. Die Antwort des Elternteils erscheint aber nur Wort für Wort. Das nächste Wort erscheint immer dann, wenn Sie eines der Bilder anklicken. Sie sollen aber bitte nicht wahllos irgendein Bild anklicken. Bitte wählen Sie das Bild, von dem Sie glauben, dass es am wahrscheinlichsten dasjenige ist, über das die beiden sprechen. Beziehen Sie dabei dann die Information aus der Antwort des Elternteils immer auch mit ein. Wenn Sie glauben, dass zwei oder mehrere Bilder gleich wahrscheinlich sind, wählen Sie bitte einfach eines davon aus. Wenn Sie nach dem nächsten Klick wieder mehrere Bilder gleich wahrscheinlich finden, wählen Sie diesmal wieder eines aus, aber vielleicht ein anderes als zuvor. <br> <br> Um zu Beginnen klicken Sie bitte auf den Button „Experiment starten“`,
+  buttonText: 'Experiment starten'
 });
-
 
 // In the post test questionnaire you can ask your participants addtional questions
 const post_test = magpieViews.view_generator("post_test", {
   trials: 1,
   name: 'post_test',
-  title: 'Additional information',
-  text: 'Answering the following questions is optional, but your answers will help us analyze our results.'
-
+  title: 'Weitere Angaben',
+  text: 'Die Beantwortung der folgenden Fragen ist optional, aber es kann bei der Auswertung hilfreich sein, damit wir Ihre Antworten besser verstehen.',
+  buttonText: 'Weiter',
+  age_question: 'Alter',
+  gender_question: 'Geschlecht',
+  gender_male: 'männlich',
+  gender_female: 'weiblich',
+  gender_other: 'divers',
+  edu_question: 'Höchster Bildungsabschluss',
+  edu_graduated_high_school: 'Abitur',
+  edu_graduated_college: 'Hochschulabschluss',
+  edu_higher_degree: 'Universitärer Abschluss',
+  languages_question: 'Muttersprache',
+  languages_more: '(in der Regel die Sprache, die Sie als Kind zu Hause gesprochen haben)',
+  comments_question: 'Weitere Kommentare'
   // You can change much of what appears here, e.g., to present it in a different language, as follows:
   // buttonText: 'Weiter',
   // age_question: 'Alter',
@@ -74,7 +76,7 @@ const post_test = magpieViews.view_generator("post_test", {
 const thanks = magpieViews.view_generator("thanks", {
   trials: 1,
   name: 'thanks',
-  title: 'Thank you for taking part in this experiment!',
+  title: 'Vielen Dank für Ihre Teilnahme!',
   prolificConfirmText: 'Press the button'
 });
 
