@@ -145,7 +145,7 @@ const poor_folks_VW = magpieViews.view_generator("image_selection", {
 
             // SPR part
 
-            const sentenceList = config.data[CT].answer.trim().split(" | ");
+            const sentenceList = config.data[CT].chunked_answer.trim().split(" | ");
             let clickCounter = 0;
             let wordList;
             let readingTimes = [];
