@@ -103,13 +103,56 @@ const thanks = magpieViews.view_generator("thanks", {
 * https://magpie-ea.github.io/magpie-docs/01_designing_experiments/01_template_views/#trial-views
 */
 
-const shuffled_list_data = trial_info.poor_folks_VW;
+
+const main_trials_ordered = _.shuffle(_.concat(
+    _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "reliable" && t.DP == "indeed"}), 5),
+    _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "reliable" && t.DP == "actually"}), 5),
+));
+
+const fillers_ordered = _.shuffle(
+    _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "filler"}), 20)
+);
+
+var shuffled_list_data = _.concat(
+    fillers_ordered[0],
+    main_trials_ordered[0],
+    fillers_ordered[1],
+    fillers_ordered[2],
+    main_trials_ordered[1],
+    fillers_ordered[3],
+    main_trials_ordered[2],
+    fillers_ordered[4],
+    fillers_ordered[5],
+    main_trials_ordered[3],
+    main_trials_ordered[4],
+    fillers_ordered[6],
+    fillers_ordered[7],
+    main_trials_ordered[5],
+    fillers_ordered[8],
+    fillers_ordered[9],
+    fillers_ordered[10],
+    main_trials_ordered[6],
+    fillers_ordered[11],
+    main_trials_ordered[7],
+    fillers_ordered[12],
+    fillers_ordered[13],
+    main_trials_ordered[8],
+    fillers_ordered[14],
+    fillers_ordered[15],
+    fillers_ordered[16],
+    main_trials_ordered[9],
+    fillers_ordered[17]
+);
+
+// for debugging pictures etc
+shuffled_list_data = trial_info;
+
+console.log(shuffled_list_data);
 
 const poor_folks_VW = magpieViews.view_generator("image_selection", {
   trials: shuffled_list_data.length,
   name: 'poor_folks_visual_world',
   data: shuffled_list_data
-  // disc_particle: _.shuffle(["indeed", "indeed", "indeed", "indeed", "indeed", "actually", "actually", "actually", "actually", "actually", "filler", "filler", "filler", "filler", "filler", "filler"])
   },
     {   stimulus_container_generator: function (config, CT) {
         const helpText = config.data[CT].help_text !== undefined ?
@@ -179,7 +222,8 @@ const poor_folks_VW = magpieViews.view_generator("image_selection", {
                     }
 
                     if (clickCounter > 0 && showNeighbor) {
-                        wordList[clickCounter - 1].classList.add("spr-word-hidden");
+                        // this will hide the previously revealed chunk
+                        // wordList[clickCounter - 1].classList.add("spr-word-hidden");
                     }
 
                     pictureChoices.push($("input[name=answer]:checked").val());

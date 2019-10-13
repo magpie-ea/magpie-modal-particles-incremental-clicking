@@ -1,8 +1,7 @@
 // In this file you can specify the trial data for your experiment
 
 
-const trial_info = {
-    poor_folks_VW:
+const trial_info = 
     [
  {
    "item_id": 1,
@@ -3419,9 +3418,9 @@ const trial_info = {
    "answer_file": "r_e_loewe.wav",
    "target_position": "3",
    "list": 1,
-   "complete_answer": "Das ist eigentlich ein Bild von einem Löwe.",
+   "complete_answer": "Das ist eigentlich ein Bild von einem Löwen.",
    "incomplete_answer": "Das ist eigentlich ein Bild von einem ...",
-   "chunked_answer": "Das ist | eigentlich ein Bild von | einem Löwe.",
+   "chunked_answer": "Das ist | eigentlich ein Bild von | einem Löwen.",
    "expected_response": "Löwe",
    "target": "Tiger",
    "competitor": "Löwe",
@@ -6675,7 +6674,7 @@ const trial_info = {
    "unmentioned_element": "NA",
    "unmentioned_file": "NA",
    "picture1": "images/whaleshark.jpg",
-   "picture2": "images/caribou.jpg",
+   "picture2": "images/caribou02.jpg",
    "picture3": "images/asianelephant.jpg",
    "picture4": "images/scorpion.jpg",
    "question": "Ist das ein Fisch?",
@@ -7594,7 +7593,7 @@ const trial_info = {
    "item_name": "artichoke",
    "det_target": "NA",
    "det_competitor": "NA",
-   "option1": "artichocke01b",
+   "option1": "artichoke01b",
    "option2": "waterfountain02",
    "option3": "pumpkin",
    "option4": "atm",
@@ -7602,7 +7601,7 @@ const trial_info = {
    "mentioned_file": "NA",
    "unmentioned_element": "NA",
    "unmentioned_file": "NA",
-   "picture1": "images/artichocke01b.jpg",
+   "picture1": "images/artichoke01b.jpg",
    "picture2": "images/waterfountain02.jpg",
    "picture3": "images/pumpkin.jpg",
    "picture4": "images/atm.jpg",
@@ -7614,7 +7613,7 @@ const trial_info = {
    "complete_answer": "Nein, das ist eine Artischocke, man kann sie kochen.",
    "incomplete_answer": "Nein, das ist eine ..., man kann sie kochen.",
    "chunked_answer": "Nein, | das ist | eine Artischocke, | man kann sie kochen.",
-   "expected_response": "artichocke01b",
+   "expected_response": "artichoke01b",
    "target": "NA",
    "competitor": "NA",
    "condition": "filler",
@@ -8324,5 +8323,4 @@ const trial_info = {
    "condition": "filler",
    "DP": "NA"
  }
-]
-   };
+];
