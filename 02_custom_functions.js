@@ -179,8 +179,11 @@ const poor_folks_VW_hand_resp_function = function(config, CT, magpie, answer_con
                     // clear visual picture selection
                     clear_border_selection();
 
-                    pictureChoices.push($("input[name=answer]:checked").val());
-                    readingTimes.push(Date.now());
+                    // do not record anything for first automatic call of this function 
+                    if ( $("input[name=answer]:checked").val() != null ) {
+                        pictureChoices.push($("input[name=answer]:checked").val());
+                        readingTimes.push(Date.now());
+                    }
                     clickCounter++;
                 } else if (clickCounter === sentenceList.length) {
                     if (showNeighbor) {
@@ -238,6 +241,9 @@ const poor_folks_VW_hand_resp_function = function(config, CT, magpie, answer_con
             if (one_line){
                 $('.magpie-spr-sentence .spr-word').addClass('one-line');
             }
+
+    // first chunk is revealed immediately
+    handle_next_click();
 
     $("input[name=answer]").on("click", handle_image_click);
     $("#next").on("click", handle_next_click);
