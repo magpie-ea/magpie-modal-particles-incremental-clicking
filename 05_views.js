@@ -103,14 +103,15 @@ const thanks = magpieViews.view_generator("thanks", {
 * https://magpie-ea.github.io/magpie-docs/01_designing_experiments/01_template_views/#trial-views
 */
 
+const items_indeed = _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "reliable" && t.DP == "indeed";}), 5);
+const items_actually = _.sampleSize(_.filter(trial_info, function(t) {
+    return t.condition == "reliable" && t.DP == "actually" && !_.includes(_.map(items_indeed, function(t) {return t.item_name;}), t.item_type);
+}), 5);
 
-const main_trials_ordered = _.shuffle(_.concat(
-    _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "reliable" && t.DP == "indeed"}), 5),
-    _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "reliable" && t.DP == "actually"}), 5),
-));
+const main_trials_ordered = _.shuffle( _.concat( items_indeed, items_actually ) );
 
 const fillers_ordered = _.shuffle(
-    _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "filler"}), 20)
+    _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "filler";}), 20)
 );
 
 var shuffled_list_data = _.concat(
@@ -144,9 +145,6 @@ var shuffled_list_data = _.concat(
     fillers_ordered[17]
 );
 
-// for debugging pictures etc
-shuffled_list_data = trial_info;
-
 console.log(shuffled_list_data);
 
 const poor_folks_VW = magpieViews.view_generator("image_selection", {
@@ -154,139 +152,8 @@ const poor_folks_VW = magpieViews.view_generator("image_selection", {
   name: 'poor_folks_visual_world',
   data: shuffled_list_data
   },
-    {   stimulus_container_generator: function (config, CT) {
-        const helpText = config.data[CT].help_text !== undefined ?
-              config.data[CT].help_text : "";
-        return         `<div class='magpie-view'>
-                    <h1 class='magpie-view-title'>${config.title}</h1>
-                    <p class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
-                    <div class='magpie-view-stimulus-container'>
-                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
-                    </div>
-                    <p class='magpie-help-text magpie-nodisplay'>${helpText}</p>
-                </div>`;},
-
-
-        answer_container_generator: function (config, CT) {
-            return `<div class='magpie-view-answer-container'>
-                        <p class='magpie-view-question'><font color = "gray">Das Kind fragt:</font><br><font size  = 5>${config.data[CT].question}</font></p>
-                        <p class='magpie-view-question'><font color = "gray">Das Elternteil sagt:</font></p>
-                        <p class='magpie-spr-sentence'></p>
-                        <p class='magpie-view-question'><font color = "gray">Über welches Bild reden die beiden?</font></p>
-                        <label for="img1" class='magpie-view-picture magpie-response-picture'><img class="resize" src=${config.data[CT].picture1} style="border:3px solid black"></label>
-                        <input type="radio" name="answer" id="img1" value="${config.data[CT].option1}"/>
-                        <input type="radio" name="answer" id="img2" value="${config.data[CT].option2}"/>
-                        <label for="img2" class='magpie-view-picture magpie-response-picture'><img class="resize" src=${config.data[CT].picture2} style="border:3px solid black"></label><p>
-                        <label for="img3" class='magpie-view-picture magpie-response-picture'><img class="resize" src=${config.data[CT].picture3} style="border:3px solid black"></label>
-                        <input type="radio" name="answer" id="img3" value="${config.data[CT].option3}"/>
-                        <input type="radio" name="answer" id="img4" value="${config.data[CT].option4}"/>
-                        <label for="img4" class='magpie-view-picture magpie-response-picture'><img class="resize" src=${config.data[CT].picture4} style="border:3px solid black"></label></p>
-                    </div>`;},
-
-        handle_response_function: function(config, CT, magpie, answer_container_generator, startingTime) {
-            $(".magpie-view").append(answer_container_generator(config, CT));
-
-            // SPR part
-
-            const sentenceList = config.data[CT].chunked_answer.trim().split(" | ");
-            let clickCounter = 0;
-            let wordList;
-            let readingTimes = [];
-            let pictureChoices = [];
-            // wordPos "next" or "same", if "next" words appear next to each other, if "same" all words appear at the same place
-            // default: "next"
-            let wordPos = config.data[CT].wordPos === undefined ? "next" : config.data[CT].wordPos;
-            let showNeighbor = wordPos === "next";
-            // underline "words", "sentence" or "none", if "words" every word gets underlined, if "sentence" the sentence gets
-            // underlined, if "none" there is no underline
-            // default: "words"
-            let underline = config.data[CT].underline === undefined ? "words" : config.data[CT].underline;
-            let not_underline = underline === "none";
-            let one_line = underline === "sentence";
-
-            // shows the sentence word by word on CLICK press
-            const handle_click = function() {
-
-                if (clickCounter < sentenceList.length) {
-                    if (showNeighbor) {
-                        wordList[clickCounter].classList.remove("spr-word-hidden");
-                    } else {
-                        $(".magpie-spr-sentence").html(`<span class='spr-word'>${sentenceList[clickCounter]}</span>`);
-                        if (not_underline){
-                            $('.magpie-spr-sentence .spr-word').addClass('no-line');
-                        }
-                    }
-
-                    if (clickCounter === 0) {
-                        $(".magpie-help-text").addClass("magpie-invisible");
-                    }
-
-                    if (clickCounter > 0 && showNeighbor) {
-                        // this will hide the previously revealed chunk
-                        // wordList[clickCounter - 1].classList.add("spr-word-hidden");
-                    }
-
-                    pictureChoices.push($("input[name=answer]:checked").val());
-                    readingTimes.push(Date.now());
-                    clickCounter++;
-                } else if (clickCounter === sentenceList.length) {
-                    if (showNeighbor) {
-                        wordList[clickCounter - 1].classList.add("spr-word-hidden");
-                    } else {
-                        $(".magpie-spr-sentence").html("");
-                    }
-
-                    pictureChoices.push($("input[name=answer]:checked").val());
-                    readingTimes.push(Date.now());
-                    clickCounter++;
-
-                    const RT = Date.now() - startingTime;
-                    let reactionTimes = readingTimes
-                    .reduce((result, current, idx) => {
-                        return result.concat(
-                            readingTimes[idx + 1] - readingTimes[idx]
-                        );
-                    }, [])
-                    .filter((item) => isNaN(item) === false);
-                    let trial_data = {
-                        trial_name: config.name,
-                        trial_number: CT + 1,
-                        response: $("input[name=answer]:checked").val(),
-                        reaction_times: reactionTimes,
-                        pictureChoices: pictureChoices,
-                        time_spent: RT
-                    };
-
-                    trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
-
-                    magpie.trial_data.push(trial_data);
-                    magpie.findNextView();
-
-                }
-            };
-            // shows the help text
-            $(".magpie-help-text").removeClass("magpie-nodisplay");
-
-            if (showNeighbor) {
-                // creates the sentence
-                sentenceList.map((word) => {
-                    $(".magpie-spr-sentence").append(
-                        `<span class='spr-word spr-word-hidden'>${word}</span>`
-                    );
-                });
-
-                // creates an array of spr word elements
-                wordList = $(".spr-word").toArray();
-            }
-
-            if (not_underline){
-                $('.magpie-spr-sentence .spr-word').addClass('no-line');
-            }
-            if (one_line){
-                $('.magpie-spr-sentence .spr-word').addClass('one-line');
-            }
-
-            $("input[name=answer]").on("click", handle_click);
-
+    {   stimulus_container_generator: poor_folks_VW_stim_cont_generator,
+        answer_container_generator: poor_folks_VW_answ_cont_generator,
+        handle_response_function: poor_folks_VW_hand_resp_function
     }
-});
+);
