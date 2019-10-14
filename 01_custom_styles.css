@@ -2,10 +2,10 @@
 
 /* Example of extending a given magpie-style */
 
-/*.magpie-view-stimulus-container {
+.magpie-view-stimulus-container {
     height: auto;
     max-height: 350px;
-} */
+}
 
 /* Display all titles in red */
 /*.magpie-view-title {

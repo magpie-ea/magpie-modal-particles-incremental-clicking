@@ -87,14 +87,22 @@ const poor_folks_VW_answ_cont_generator = function (config, CT) {
                         <p class='magpie-view-question'><font color = "gray">Das Elternteil sagt:</font></p>
                         <p class='magpie-spr-sentence'></p>
                         <p class='magpie-view-question'><font color = "gray">Über welches Bild reden die beiden?</font></p>
-                        <label for="img1" class='magpie-view-picture magpie-response-picture'><img class="resize" src=${config.data[CT].picture1} style="border:3px solid black"></label>
+
+                        <label for="img1" class='magpie-view-picture magpie-response-picture'>
+                        <img class="resize" src=${config.data[CT].picture1} style="width:175px; height: 175px; border:3px solid black"></label>
                         <input type="radio" name="answer" id="img1" value="${config.data[CT].option1}"/>
+
+                        <label for="img2" class='magpie-view-picture magpie-response-picture'>
+                        <img class="resize" src=${config.data[CT].picture2} style="width:175px; height: 175px; border:3px solid black"></label><p>
                         <input type="radio" name="answer" id="img2" value="${config.data[CT].option2}"/>
-                        <label for="img2" class='magpie-view-picture magpie-response-picture'><img class="resize" src=${config.data[CT].picture2} style="border:3px solid black"></label><p>
-                        <label for="img3" class='magpie-view-picture magpie-response-picture'><img class="resize" src=${config.data[CT].picture3} style="border:3px solid black"></label>
+
+                        <label for="img3" class='magpie-view-picture magpie-response-picture'>
+                        <img class="resize" src=${config.data[CT].picture3} style="width:175px; height: 175px; border:3px solid black"></label>
                         <input type="radio" name="answer" id="img3" value="${config.data[CT].option3}"/>
+
+                        <label for="img4" class='magpie-view-picture magpie-response-picture'>
+                        <img class="resize" src=${config.data[CT].picture4} style="width:175px; height: 175px; border:3px solid black"></label></p>
                         <input type="radio" name="answer" id="img4" value="${config.data[CT].option4}"/>
-                        <label for="img4" class='magpie-view-picture magpie-response-picture'><img class="resize" src=${config.data[CT].picture4} style="border:3px solid black"></label></p>
                     </div>`;};
 
 const poor_folks_VW_hand_resp_function = function(config, CT, magpie, answer_container_generator, startingTime) {
