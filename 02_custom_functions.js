@@ -89,20 +89,27 @@ const poor_folks_VW_answ_cont_generator = function (config, CT) {
                         <p class='magpie-view-question'><font color = "gray">Über welches Bild reden die beiden?</font></p>
 
                         <label for="img1" class='magpie-view-picture magpie-response-picture'>
-                        <img class="resize" src=${config.data[CT].picture1} style="width:175px; height: 175px; border:3px solid black"></label>
+                        <img id="image_${config.data[CT].option1}" class="resize" src=${config.data[CT].picture1} style="width:175px; height: 175px; border:6px solid lightgray"></label>
                         <input type="radio" name="answer" id="img1" value="${config.data[CT].option1}"/>
 
                         <label for="img2" class='magpie-view-picture magpie-response-picture'>
-                        <img class="resize" src=${config.data[CT].picture2} style="width:175px; height: 175px; border:3px solid black"></label><p>
+                        <img id="image_${config.data[CT].option2}" class="resize" src=${config.data[CT].picture2} style="width:175px; height: 175px; border:6px solid lightgray"></label>
                         <input type="radio" name="answer" id="img2" value="${config.data[CT].option2}"/>
 
+                        <p>
+
                         <label for="img3" class='magpie-view-picture magpie-response-picture'>
-                        <img class="resize" src=${config.data[CT].picture3} style="width:175px; height: 175px; border:3px solid black"></label>
+                        <img id="image_${config.data[CT].option3}" class="resize" src=${config.data[CT].picture3} style="width:175px; height: 175px; border:6px solid lightgray"></label>
                         <input type="radio" name="answer" id="img3" value="${config.data[CT].option3}"/>
 
                         <label for="img4" class='magpie-view-picture magpie-response-picture'>
-                        <img class="resize" src=${config.data[CT].picture4} style="width:175px; height: 175px; border:3px solid black"></label></p>
+                        <img id="image_${config.data[CT].option4}" class="resize" src=${config.data[CT].picture4} style="width:175px; height: 175px; border:6px solid lightgray"></label>
                         <input type="radio" name="answer" id="img4" value="${config.data[CT].option4}"/>
+
+                        <p>
+
+                        <button id='next' class='magpie-view-button magpie-nodisplay'>Next</button>
+
                     </div>`;};
 
 const poor_folks_VW_hand_resp_function = function(config, CT, magpie, answer_container_generator, startingTime) {
@@ -126,9 +133,28 @@ const poor_folks_VW_hand_resp_function = function(config, CT, magpie, answer_con
             let not_underline = underline === "none";
             let one_line = underline === "sentence";
 
-            // shows the sentence word by word on CLICK press
-            const handle_click = function() {
+            // clear border-color selection of picts
+             const clear_border_selection = function(){
+                let images_all = document.getElementsByClassName("resize");
+                console.log(images_all);
+                var i;
+                for (i = 0; i < images_all.length; i++) {
+                 images_all[i].style.border="6px solid lightgray";
+                }
+             };
 
+            // what to do when a picture is clicked: highlight, show next button
+            const handle_image_click = function() {
+                // reveal 'next' button
+                clear_border_selection();
+                let selected_pic_id = 'image_'+$("input[name=answer]:checked").val();
+                console.log(selected_pic_id);
+                console.log(document.getElementById(selected_pic_id));
+                document.getElementById(selected_pic_id).style.border="6px solid black";
+                $("#next").removeClass("magpie-nodisplay");
+            };
+
+            const handle_next_click = function() {
                 if (clickCounter < sentenceList.length) {
                     if (showNeighbor) {
                         wordList[clickCounter].classList.remove("spr-word-hidden");
@@ -147,6 +173,11 @@ const poor_folks_VW_hand_resp_function = function(config, CT, magpie, answer_con
                         // this will hide the previously revealed chunk
                         // wordList[clickCounter - 1].classList.add("spr-word-hidden");
                     }
+
+                    // hide 'next' button
+                    $("#next").addClass("magpie-nodisplay");
+                    // clear visual picture selection
+                    clear_border_selection();
 
                     pictureChoices.push($("input[name=answer]:checked").val());
                     readingTimes.push(Date.now());
@@ -208,7 +239,10 @@ const poor_folks_VW_hand_resp_function = function(config, CT, magpie, answer_con
                 $('.magpie-spr-sentence .spr-word').addClass('one-line');
             }
 
-            $("input[name=answer]").on("click", handle_click);
+    $("input[name=answer]").on("click", handle_image_click);
+    $("#next").on("click", handle_next_click);
+
+
 
 };
 
