@@ -33,8 +33,25 @@ const instructions = magpieViews.view_generator("instructions", {
   trials: 1,
   name: 'instructions',
   title: 'Anleitung',
-  text: `In diesem Experiment sollen Sie eines von vier Bildern, die auf dem Bildschirm erscheinen, auswählen. Die Bilder, die Sie sehen werden, stellen Bilder aus einem Bilderbuch dar. Bitte stellen Sie sich vor, dass ein Kind dieses Bilderbuch zusammen mit einem Elternteil anschaut. Die Bilder zeigen Tiere und verschiedene Gegenstände. Sie sollen nun anhand von kurzen Gesprächen zwischen dem Kind und dem Elternteil entscheiden über, welches Bild die beiden sprechen. In jedem Durchgang werden Sie zunächst eine Frage, die das Kind gestellt hat, und eine Antwort des Elternteils lesen. Die Antwort des Elternteils erscheint aber nur Wort für Wort. Das nächste Wort erscheint immer dann, wenn Sie eines der Bilder anklicken. Sie sollen aber bitte nicht wahllos irgendein Bild anklicken. Bitte wählen Sie das Bild, von dem Sie glauben, dass es am wahrscheinlichsten dasjenige ist, über das die beiden sprechen. Beziehen Sie dabei dann die Information aus der Antwort des Elternteils immer auch mit ein. Wenn Sie glauben, dass zwei oder mehrere Bilder gleich wahrscheinlich sind, wählen Sie bitte einfach eines davon aus. Wenn Sie nach dem nächsten Klick wieder mehrere Bilder gleich wahrscheinlich finden, wählen Sie diesmal wieder eines aus, aber vielleicht ein anderes als zuvor. <br> <br> Um zu Beginnen klicken Sie bitte auf den Button „Experiment starten“`,
-  buttonText: 'Experiment starten'
+  text: `
+  Bitte lesen Sie die folgende Anleitung sorgfältig durch.
+  <br><br>
+  In diesem Experiment sollen Sie eines von vier Bildern, die auf dem Bildschirm erscheinen, auswählen. Die Bilder, die Sie sehen werden, stellen Bilder aus einem Bilderbuch dar. <strong>Bitte stellen Sie sich vor, dass ein Kind dieses Bilderbuch zusammen mit einem Elternteil anschaut.</strong> Die Bilder zeigen Tiere und verschiedene Gegenstände. <strong>Sie sollen nun anhand von kurzen Gesprächen zwischen dem Kind und dem Elternteil erraten, über welches Bild die beiden sprechen.</strong>
+  <br> <br>
+  In jedem Durchgang werden Sie zunächst eine Frage, die das Kind gestellt hat, und eine Antwort des Elternteils lesen. Die Antwort des Elternteils erscheint aber nur Stück für Stück. <strong>Das nächste Stück der Antwort erscheint immer dann, wenn Sie eines der Bilder ausgewählt haben.</strong> Sie sollen aber bitte nicht wahllos irgendein Bild anklicken. <strong>Bitte wählen Sie das Bild, von dem Sie glauben, dass es am wahrscheinlichsten dasjenige ist, über das die beiden sprechen. Beziehen Sie dabei alle Information aus der bisher sichtbaren Antwort des Elternteils immer auch mit ein.</strong> Wenn Sie glauben, dass zwei oder mehrere Bilder gleich wahrscheinlich sind, wählen Sie bitte einfach eines davon aus.
+  <br> <br>
+  Wir beginnen mit zwei Probedurchläufen, damit Sie sich an diese Aufgabe gewöhnen können.`,
+  buttonText: 'Übung starten'
+});
+
+const start_experiment = magpieViews.view_generator("intro", {
+    trials: 1,
+    name: 'start_experiment',
+    title: `Auf geht's zum Experiment!`,
+    text: `Nach dieser kurzen Übungsphase, gehen wir nun zum eigentlichen Experiment über.
+    <br><br>
+    Bitte erwägen Sie nach jedem einzelnen Stück der Antwort des Elternteils, das Sie lesen, über welches Bild wahrscheinlich gesprochen wird. Sie dürfen Ihre Meinung also auch gerne im Verlauf eines Durchgangs ändern.`,
+    buttonText: 'Experiment starten'
 });
 
 // In the post test questionnaire you can ask your participants addtional questions
@@ -146,6 +163,20 @@ var shuffled_list_data = _.concat(
 );
 
 console.log(shuffled_list_data);
+
+var training_items = _.concat( fillers_ordered[18],  fillers_ordered[19]);
+
+const training = magpieViews.view_generator("image_selection", {
+    trials: training_items.length,
+    name: 'poor_folks_visual_world_training',
+    data: training_items
+},
+ {   stimulus_container_generator: poor_folks_VW_stim_cont_generator,
+     answer_container_generator: poor_folks_VW_answ_cont_generator,
+     handle_response_function: poor_folks_VW_hand_resp_function
+ }
+);
+
 
 const poor_folks_VW = magpieViews.view_generator("image_selection", {
   trials: shuffled_list_data.length,

@@ -17,6 +17,8 @@ $("document").ready(function() {
         views_seq: [
             intro,
             instructions,
+            training,
+            start_experiment,
             poor_folks_VW,
             post_test,
             thanks,
@@ -36,6 +38,7 @@ $("document").ready(function() {
         progress_bar: {
             in: [
                 // list the view-names of the views for which you want a progress bar
+                training.name,
                 poor_folks_VW.name,
             ],
              // Possible styles are "default", "separate" and "chunks"
