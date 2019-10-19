@@ -131,7 +131,6 @@ const poor_folks_VW_hand_resp_function = function(config, CT, magpie, answer_con
             // clear border-color selection of picts
              const clear_border_selection = function(){
                 let images_all = document.getElementsByClassName("resize");
-                console.log(images_all);
                 var i;
                 for (i = 0; i < images_all.length; i++) {
                  images_all[i].style.border="6px solid lightgray";
@@ -143,8 +142,6 @@ const poor_folks_VW_hand_resp_function = function(config, CT, magpie, answer_con
                 // reveal 'next' button
                 clear_border_selection();
                 let selected_pic_id = 'image_'+$("input[name=answer]:checked").val();
-                console.log(selected_pic_id);
-                console.log(document.getElementById(selected_pic_id));
                 document.getElementById(selected_pic_id).style.border="6px solid black";
                 $("#next").removeClass("magpie-nodisplay");
             };

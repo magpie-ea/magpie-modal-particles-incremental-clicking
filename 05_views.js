@@ -162,8 +162,6 @@ var shuffled_list_data = _.concat(
     fillers_ordered[17]
 );
 
-console.log(shuffled_list_data);
-
 var training_items = _.concat( fillers_ordered[18],  fillers_ordered[19]);
 
 const training = magpieViews.view_generator("image_selection", {
