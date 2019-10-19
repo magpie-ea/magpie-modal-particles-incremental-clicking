@@ -73,23 +73,18 @@ const poor_folks_VW_stim_cont_generator = function (config, CT) {
     const helpText = config.data[CT].help_text !== undefined ?
           config.data[CT].help_text : "";
     return         `<div class='magpie-view'>
-                    <h1 class='magpie-view-title'>${config.title}</h1>
-                    <p class='magpie-view-question magpie-view-qud'>${config.data[CT].QUD}</p>
-                    <div class='magpie-view-stimulus-container'>
-                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
-                    </div>
-                    <p class='magpie-help-text magpie-nodisplay'>${helpText}</p>
                 </div>`;};
 
 const poor_folks_VW_answ_cont_generator = function (config, CT) {
+            $(".magpie-view").css("padding-top", 0);
             return `<div class='magpie-view-answer-container'>
-                        <p class='magpie-view-question'><font color = "gray">Das Kind fragt:</font><br><font size  = 5>${config.data[CT].question}</font></p>
-                        <p class='magpie-view-question'><font color = "gray">Das Elternteil sagt:</font></p>
-                        <p class='magpie-spr-sentence'></p>
+                        <p class='magpie-view-question' style='padding-top: 0px;'><font color = "gray">Das Kind fragt:</font><br><font size  = 5>${config.data[CT].question}</font></p>
+                        <p class='magpie-view-question' style='margin: auto auto 0px auto;'><font color = "gray">Das Elternteil sagt:</font></p>
+                        <p class='magpie-spr-sentence' style = 'margin: auto auto 0px auto;'></p>
                         <p class='magpie-view-question'><font color = "gray">Über welches Bild reden die beiden?</font></p>
 
                         <label for="img1" class='magpie-view-picture magpie-response-picture'>
-                        <img id="image_${config.data[CT].option1}" class="resize" src=${config.data[CT].picture1} style="width:175px; height: 175px; border:6px solid lightgray"></label>
+                        <img id="image_${config.data[CT].option1}" class="resize" src=${config.data[CT].picture1} style="width:175px; height: 175px; border:6px solid lightgray;"></label>
                         <input type="radio" name="answer" id="img1" value="${config.data[CT].option1}"/>
 
                         <label for="img2" class='magpie-view-picture magpie-response-picture'>

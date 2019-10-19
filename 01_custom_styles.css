@@ -21,3 +21,30 @@
 /*     width: 500px; */
 /*     border: 10px solid powderblue; */
 /* } */
+
+.magpie-help-text {
+    font-size: 0px;
+    max-height: 0px;
+}
+
+.progress-bar-container {
+    float: right;
+    margin: 0 10px 60px 10px;
+}
+
+.clearfix {
+    clear: none;
+}
+
+.magpie-view {
+    padding-top: 0px;
+}
+
+/* .magpie-view-answer-container { */
+/*     text-align: center; */
+/*     margin: : 0px; */
+/*     border: 1px solid red; */
+/*     clear: none; */
+/*     position: sticky; */
+/*     top: 0; */
+/* } */
