@@ -120,18 +120,54 @@ const thanks = magpieViews.view_generator("thanks", {
 * https://magpie-ea.github.io/magpie-docs/01_designing_experiments/01_template_views/#trial-views
 */
 
-const items_indeed = _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "reliable" && t.DP == "indeed";}), 5);
-const items_actually = _.sampleSize(_.filter(trial_info, function(t) {
-    return t.condition == "reliable" && t.DP == "actually" && !_.includes(_.map(items_indeed, function(t) {return t.item_name;}), t.item_type);
-}), 5);
+/*
+  RELIABLE GROUP SEES
+  + 5 reliable indeed
+  + 5 reliable actually
+  + 18 fillers
 
-const main_trials_ordered = _.shuffle( _.concat( items_indeed, items_actually ) );
+  UNRELIABLE GROUP SEES
+  + 2 reliable indeed
+  + 2 reliable actually
+  + 3 unreliable indeed
+  + 3 unreliable actually
+  + 18 fillers
+*/
+
+// sample or fix whether reliable or unreliable group
+// const group_rel_unrel = _.sampleSize(["reliable", "unreliable"],1);
+const group_rel_unrel = "unreliable";
+
+// built main trials for RELIABLE group
+if (group_rel_unrel == "reliable") {
+    const items_indeed   = _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "reliable" && t.DP == "indeed";}), 5);
+    const items_actually = _.sampleSize(_.filter(trial_info, function(t) {
+        return t.condition == "reliable" && t.DP == "actually" && !_.includes(_.map(items_indeed, function(t) {return t.item_name;}), t.item_type);
+    }), 5);
+
+    var main_trials_ordered = _.shuffle( _.concat( items_indeed, items_actually ) );
+}
+
+//built main trials for UNRELIABLE group
+if (group_rel_unrel == "unreliable") {
+    const items_indeed_rel   = _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "reliable" && t.DP == "indeed";}), 2);
+    const items_actually_rel = _.sampleSize(_.filter(trial_info, function(t) {
+        return t.condition == "reliable" && t.DP == "actually" && !_.includes(_.map(items_indeed_rel, function(t) {return t.item_name;}), t.item_type);
+    }), 2);
+    const items_indeed_unrel   = _.sampleSize(_.filter(trial_info, function(t) {
+        return t.condition == "unreliable" && t.DP == "indeed" && !_.includes(_.map(_.concat(items_indeed_rel, items_actually_rel), function(t) {return t.item_name;}), t.item_type);}), 3);
+    const items_actually_unrel = _.sampleSize(_.filter(trial_info, function(t) {
+        return t.condition == "unreliable" && t.DP == "actually" && !_.includes(_.map(_.concat(items_indeed_rel, items_actually_rel, items_indeed_unrel), function(t) {return t.item_name;}), t.item_type);
+    }), 3);
+
+    var main_trials_ordered = _.shuffle( _.concat( items_indeed_rel, items_actually_rel, items_indeed_unrel, items_actually_unrel ) );
+}
 
 const fillers_ordered = _.shuffle(
     _.sampleSize(_.filter(trial_info, function(t) {return t.condition == "filler";}), 20)
 );
 
-var shuffled_list_data = _.concat(
+var main_items = _.concat(
     fillers_ordered[0],
     main_trials_ordered[0],
     fillers_ordered[1],
@@ -177,9 +213,9 @@ const training = magpieViews.view_generator("image_selection", {
 
 
 const poor_folks_VW = magpieViews.view_generator("image_selection", {
-  trials: shuffled_list_data.length,
+  trials: main_items.length,
   name: 'poor_folks_visual_world',
-  data: shuffled_list_data
+  data: main_items
   },
     {   stimulus_container_generator: poor_folks_VW_stim_cont_generator,
         answer_container_generator: poor_folks_VW_answ_cont_generator,

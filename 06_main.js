@@ -25,13 +25,13 @@ $("document").ready(function() {
         ],
         // Here, you can specify all information for the deployment
         deploy: {
-            experimentID: "",
+            experimentID: "8",
             serverAppURL: "",
             // Possible deployment methods are:
             // "debug" and "directLink"
             // As well as "MTurk", "MTurkSandbox" and "Prolific"
             deployMethod: "debug",
-            contact_email: "",
+            contact_email: "michael.franke@uni-osnabrueck.de",
             prolificURL: ""
         },
         // Here, you can specify how the progress bar should look like
